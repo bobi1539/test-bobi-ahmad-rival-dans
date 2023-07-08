@@ -28,7 +28,7 @@ public class ErrorHandlerController {
     }
 
     @ExceptionHandler(RuntimeException.class)
-    public ResponseEntity<?> exception(RuntimeException e) {
+    public ResponseEntity<?> runtimeException(RuntimeException e) {
         log.error("Error : {}", e);
         return new ResponseEntity<>(
                 BaseResponse.builder()
@@ -40,7 +40,7 @@ public class ErrorHandlerController {
     }
 
     @ExceptionHandler(BusinessException.class)
-    public ResponseEntity<?> exception(BusinessException e) {
+    public ResponseEntity<?> businessException(BusinessException e) {
         log.error("Error : {}", e);
         return new ResponseEntity<>(
                 BaseResponse.builder()

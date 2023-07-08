@@ -15,7 +15,7 @@ import java.util.concurrent.TimeUnit;
 @Component
 public class JwtUtil {
 
-    private final String secretKey = "test-bobi-ahmad-rival-secret-key";
+    private final String secretKey = "2B4B6250655368566D597133743677397A244326462948404D635166546A576E";
 
     public GenerateTokenDto generateToken(TokenComponentDto tokenComponentDto) {
         Date currentDate = new Date();
@@ -47,7 +47,7 @@ public class JwtUtil {
                 .getBody();
     }
 
-    public boolean isTokenExpired(Date expirationDate) {
+    public boolean isTokenValid(Date expirationDate) {
         return expirationDate.before(new Date());
     }
 }
