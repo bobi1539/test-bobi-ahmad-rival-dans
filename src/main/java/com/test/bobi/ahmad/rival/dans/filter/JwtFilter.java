@@ -4,7 +4,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.test.bobi.ahmad.rival.dans.constant.GlobalMessage;
 import com.test.bobi.ahmad.rival.dans.dto.BusinessException;
 import com.test.bobi.ahmad.rival.dans.util.JwtUtil;
+import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -16,8 +18,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Objects;
 
-//@Component
+@Component
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
+@Slf4j
 public class JwtFilter extends OncePerRequestFilter {
 
     private final JwtUtil jwtUtil;
@@ -29,20 +32,23 @@ public class JwtFilter extends OncePerRequestFilter {
             HttpServletResponse response,
             FilterChain filterChain
     ) throws ServletException, IOException {
-        final String authHeader = request.getHeader("AUTHORIZATION");
+        log.info("request uri : {}", request.getRequestURI());
+
+        final String authHeader = request.getHeader("Authorization");
         if (Objects.isNull(authHeader) || !authHeader.startsWith("Bearer")) {
             throw new BusinessException(GlobalMessage.UNAUTHORIZED);
         }
 
-        final String jwtToken = authHeader.substring(7);
-        try {
-            boolean isTokenExpired = jwtUtil.isTokenExpired(jwtToken);
-            if (isTokenExpired) {
-                throw new BusinessException(GlobalMessage.UNAUTHORIZED);
-            }
-        } catch (Exception e) {
-            throw new BusinessException(GlobalMessage.UNAUTHORIZED);
-        }
+//        final String jwtToken = authHeader.substring(7);
+//        try {
+//            Claims claims = jwtUtil.getAllClaims(jwtToken);
+//            boolean isTokenExpired = jwtUtil.isTokenExpired(claims.getExpiration());
+//            if (isTokenExpired) {
+//                throw new BusinessException(GlobalMessage.UNAUTHORIZED);
+//            }
+//        } catch (Exception e) {
+//            throw new BusinessException(GlobalMessage.UNAUTHORIZED);
+//        }
 
         filterChain.doFilter(request, response);
     }

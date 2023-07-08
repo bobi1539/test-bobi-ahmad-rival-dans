@@ -27,6 +27,18 @@ public class ErrorHandlerController {
         );
     }
 
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity<?> exception(RuntimeException e) {
+        log.error("Error : {}", e);
+        return new ResponseEntity<>(
+                BaseResponse.builder()
+                        .code(HttpStatus.INTERNAL_SERVER_ERROR.value())
+                        .message(HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase())
+                        .build(),
+                HttpStatus.INTERNAL_SERVER_ERROR
+        );
+    }
+
     @ExceptionHandler(BusinessException.class)
     public ResponseEntity<?> exception(BusinessException e) {
         log.error("Error : {}", e);

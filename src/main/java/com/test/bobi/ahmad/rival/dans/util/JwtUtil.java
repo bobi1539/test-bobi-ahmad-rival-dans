@@ -40,15 +40,14 @@ public class JwtUtil {
     }
 
     public Claims getAllClaims(String token) throws Exception {
-        return Jwts.parser()
+        return Jwts.parserBuilder()
                 .setSigningKey(secretKey)
+                .build()
                 .parseClaimsJws(token)
                 .getBody();
     }
 
-    public boolean isTokenExpired(String token) throws Exception {
-        Claims claims = getAllClaims(token);
-        Date expiration = claims.getExpiration();
-        return !expiration.before(new Date());
+    public boolean isTokenExpired(Date expirationDate) {
+        return expirationDate.before(new Date());
     }
 }
