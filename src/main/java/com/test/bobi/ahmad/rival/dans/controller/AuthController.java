@@ -1,23 +1,26 @@
 package com.test.bobi.ahmad.rival.dans.controller;
 
 import com.test.bobi.ahmad.rival.dans.constant.Operation;
-import com.test.bobi.ahmad.rival.dans.dto.response.UserResponse;
-import com.test.bobi.ahmad.rival.dans.service.UserService;
+import com.test.bobi.ahmad.rival.dans.dto.request.AuthDtoRequest;
+import com.test.bobi.ahmad.rival.dans.dto.response.AuthDtoResponse;
+import com.test.bobi.ahmad.rival.dans.service.AuthService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/auth")
 @AllArgsConstructor(onConstructor = @__(@Autowired))
 public class AuthController {
+    private final AuthService authService;
 
-    private final UserService userService;
+    @PostMapping("/login")
+    public AuthDtoResponse login(@RequestBody AuthDtoRequest request){
+        return authService.auth(request);
+    }
 
-    @GetMapping
-    public UserResponse test() {
-        return userService.findByUsername("ucup");
+    @GetMapping("/test")
+    public Operation test(){
+        return Operation.INSERTED;
     }
 }

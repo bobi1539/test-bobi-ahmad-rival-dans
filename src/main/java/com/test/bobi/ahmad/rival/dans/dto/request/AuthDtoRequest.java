@@ -1,4 +1,4 @@
-package com.test.bobi.ahmad.rival.dans.dto.response;
+package com.test.bobi.ahmad.rival.dans.dto.request;
 
 import lombok.*;
 
@@ -7,8 +7,7 @@ import lombok.*;
 @Getter
 @Setter
 @Builder
-public class UserResponse {
-    private Long id;
+public class AuthDtoRequest {
     private String username;
     private String password;
 }

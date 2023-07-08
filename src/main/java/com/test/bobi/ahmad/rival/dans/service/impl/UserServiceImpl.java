@@ -3,7 +3,7 @@ package com.test.bobi.ahmad.rival.dans.service.impl;
 import com.test.bobi.ahmad.rival.dans.UserRepository;
 import com.test.bobi.ahmad.rival.dans.constant.GlobalMessage;
 import com.test.bobi.ahmad.rival.dans.dto.BusinessException;
-import com.test.bobi.ahmad.rival.dans.dto.response.UserResponse;
+import com.test.bobi.ahmad.rival.dans.dto.response.UserDtoResponse;
 import com.test.bobi.ahmad.rival.dans.entity.MUser;
 import com.test.bobi.ahmad.rival.dans.service.UserService;
 import com.test.bobi.ahmad.rival.dans.util.BeanMapper;
@@ -20,10 +20,10 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
 
     @Override
-    public UserResponse findByUsername(String username) {
+    public UserDtoResponse findByUsername(String username) {
         MUser user = userRepository.findByUsername(username).orElseThrow(
                 () -> new BusinessException(GlobalMessage.DATA_NOT_FOUND)
         );
-        return BeanMapper.map(user, UserResponse.class);
+        return BeanMapper.map(user, UserDtoResponse.class);
     }
 }

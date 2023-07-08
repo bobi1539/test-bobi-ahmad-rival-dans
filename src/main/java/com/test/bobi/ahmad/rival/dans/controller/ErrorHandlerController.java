@@ -28,7 +28,7 @@ public class ErrorHandlerController {
     }
 
     @ExceptionHandler(BusinessException.class)
-    public ResponseEntity<?> businessException(BusinessException e) {
+    public ResponseEntity<?> exception(BusinessException e) {
         log.error("Error : {}", e);
         return new ResponseEntity<>(
                 BaseResponse.builder()
