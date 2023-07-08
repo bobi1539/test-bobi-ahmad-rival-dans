@@ -10,6 +10,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import javax.servlet.ServletException;
+
 @RestControllerAdvice
 @AllArgsConstructor
 @Slf4j
@@ -17,7 +19,7 @@ public class ErrorHandlerController {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<?> exception(Exception e) {
-        log.error("Error : {}", e);
+        log.error("Error : ", e);
         return new ResponseEntity<>(
                 BaseResponse.builder()
                         .code(HttpStatus.INTERNAL_SERVER_ERROR.value())
@@ -29,7 +31,7 @@ public class ErrorHandlerController {
 
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<?> runtimeException(RuntimeException e) {
-        log.error("Error : {}", e);
+        log.error("Error : ", e);
         return new ResponseEntity<>(
                 BaseResponse.builder()
                         .code(HttpStatus.INTERNAL_SERVER_ERROR.value())
@@ -41,7 +43,7 @@ public class ErrorHandlerController {
 
     @ExceptionHandler(BusinessException.class)
     public ResponseEntity<?> businessException(BusinessException e) {
-        log.error("Error : {}", e);
+        log.error("Error : ", e);
         return new ResponseEntity<>(
                 BaseResponse.builder()
                         .code(e.getCode().value())

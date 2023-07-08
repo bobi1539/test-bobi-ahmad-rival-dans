@@ -47,7 +47,7 @@ public class JwtUtil {
                 .getBody();
     }
 
-    public boolean isTokenValid(Date expirationDate) {
+    public boolean isTokenExpired(Date expirationDate) {
         return expirationDate.before(new Date());
     }
 }

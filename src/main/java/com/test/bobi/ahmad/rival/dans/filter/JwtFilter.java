@@ -6,6 +6,8 @@ import com.test.bobi.ahmad.rival.dans.util.JwtUtil;
 import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -21,10 +23,15 @@ import java.util.Objects;
 @RequiredArgsConstructor
 public class JwtFilter extends OncePerRequestFilter {
 
+    private final RequestMatcher ignoredPaths = new AntPathRequestMatcher("/auth/**");
     private final JwtUtil jwtUtil;
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         log.info("request uri : {}", request.getRequestURI());
+        if (ignoredPaths.matches(request)) {
+            filterChain.doFilter(request, response);
+            return;
+        }
 
         String authHeader = request.getHeader("Authorization");
         if(Objects.isNull(authHeader) || !authHeader.startsWith("Bearer")){
@@ -39,8 +46,8 @@ public class JwtFilter extends OncePerRequestFilter {
             throw new BusinessException(GlobalMessage.UNAUTHORIZED);
         }
 
-        boolean isTokenValid = jwtUtil.isTokenValid(claims.getExpiration());
-        if(!isTokenValid){
+        boolean isTokenExpired = jwtUtil.isTokenExpired(claims.getExpiration());
+        if(isTokenExpired){
             throw new BusinessException(GlobalMessage.UNAUTHORIZED);
         }
 
