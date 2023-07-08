@@ -1,11 +1,10 @@
 package com.test.bobi.ahmad.rival.dans.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.test.bobi.ahmad.rival.dans.util.Util;
 import lombok.*;
 
 import java.sql.Timestamp;
-import java.util.Map;
+import java.util.Date;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -19,5 +18,5 @@ public class BaseResponse<T> {
     private T data;
 
     @Builder.Default
-    private Timestamp timestamp = Util.timestampNow();
+    private Date dateTime = new Date();
 }

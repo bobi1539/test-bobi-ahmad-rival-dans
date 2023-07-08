@@ -18,9 +18,4 @@ public class AuthController {
     public AuthDtoResponse login(@RequestBody AuthDtoRequest request){
         return authService.auth(request);
     }
-
-    @GetMapping("/test")
-    public Operation test(){
-        return Operation.INSERTED;
-    }
 }
