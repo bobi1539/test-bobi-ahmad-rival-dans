@@ -20,5 +20,4 @@ public class BaseResponse<T> {
 
     @Builder.Default
     private Timestamp timestamp = Util.timestampNow();
-    private Map<String, Object> errors;
 }
